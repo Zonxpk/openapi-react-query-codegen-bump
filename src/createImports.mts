@@ -11,7 +11,7 @@ export const createImports = ({
   client,
 }: {
   project: Project;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
 }) => {
   const modelsFile = project
     .getSourceFiles()

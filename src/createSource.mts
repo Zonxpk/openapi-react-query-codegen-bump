@@ -15,7 +15,7 @@ const createSourceFile = async ({
   initialPageParam,
 }: {
   outputPath: string;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
   pageParam: string;
   nextPageParam: string;
   initialPageParam: string;
@@ -136,7 +136,7 @@ export const createSource = async ({
   initialPageParam,
 }: {
   outputPath: string;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
   version: string;
   pageParam: string;
   nextPageParam: string;

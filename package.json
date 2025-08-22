@@ -7,7 +7,9 @@
   },
   "private": false,
   "type": "module",
-  "workspaces": ["examples/*"],
+  "workspaces": [
+    "examples/*"
+  ],
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.json",
     "lint": "biome check .",
@@ -33,7 +35,9 @@
   },
   "homepage": "https://github.com/7nohe/openapi-react-query-codegen",
   "bugs": "https://github.com/7nohe/openapi-react-query-codegen/issues",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "codegen",
     "react-query",
@@ -48,13 +52,14 @@
   "author": "Daiki Urata (@7nohe)",
   "dependencies": {
     "@hey-api/client-fetch": "0.4.0",
-    "@hey-api/openapi-ts": "0.53.8",
+    "@hey-api/openapi-ts": "0.80.18",
     "cross-spawn": "^7.0.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.3",
     "@types/cross-spawn": "^6.0.6",
     "@types/node": "^22.7.4",
+    "@types/semver": "^7.7.0",
     "@vitest/coverage-v8": "^1.5.0",
     "commander": "^12.0.0",
     "lefthook": "^1.6.10",

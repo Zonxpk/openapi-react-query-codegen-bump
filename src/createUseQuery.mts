@@ -24,7 +24,7 @@ const createApiResponseType = ({
   client,
 }: {
   methodName: string;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
 }) => {
   /** Awaited<ReturnType<typeof myClass.myMethod>> */
   const awaitedResponseDataType = ts.factory.createIndexedAccessTypeNode(
@@ -457,7 +457,7 @@ export const createUseQuery = ({
   modelNames,
 }: {
   functionDescription: FunctionDescription;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
   pageParam: string;
   nextPageParam: string;
   initialPageParam: string;

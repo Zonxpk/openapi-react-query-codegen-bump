@@ -47,7 +47,7 @@ export const createUseMutation = ({
 }: {
   functionDescription: FunctionDescription;
   modelNames: string[];
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
 }) => {
   const methodName = getNameFromVariable(method);
   const mutationKey = createQueryKeyFromMethod({ method });

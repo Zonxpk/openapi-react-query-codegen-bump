@@ -17,7 +17,7 @@ export const createExports = ({
   initialPageParam,
 }: {
   service: Service;
-  client: UserConfig["client"];
+  client: "@hey-api/client-fetch" | "@hey-api/client-axios";
   project: Project;
   pageParam: string;
   nextPageParam: string;
