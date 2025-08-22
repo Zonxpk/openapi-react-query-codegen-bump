@@ -54,9 +54,9 @@ export const createExports = ({
         );
         if (
           query &&
-          ((query as ts.PropertySignature).type as ts.TypeLiteralNode).members
-            .map((m) => m.name?.getText())
-            .includes(pageParam)
+          ((query as ts.PropertySignature).type as ts.TypeLiteralNode)?.members
+            ?.map((m) => m.name?.getText())
+            ?.includes(pageParam)
         ) {
           paginatableMethods.push(methodDataNames[key]);
         }
