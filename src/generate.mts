@@ -1,4 +1,4 @@
-import { type UserConfig, createClient } from "@hey-api/openapi-ts";
+import { createClient } from "@hey-api/openapi-ts";
 import type { LimitedUserConfig } from "./cli.mjs";
 import {
   buildQueriesOutputPath,
@@ -13,37 +13,32 @@ export async function generate(options: LimitedUserConfig, version: string) {
   const openApiOutputPath = buildRequestsOutputPath(options.output);
   const formattedOptions = formatOptions(options);
 
-  const config: UserConfig = {
-    base: formattedOptions.base,
-    client: formattedOptions.client,
-    debug: formattedOptions.debug,
-    dryRun: false,
-    exportCore: true,
+  // Configure plugins with detailed options
+  const plugins = [
+    '@hey-api/typescript',
+    {
+      name: '@hey-api/sdk',
+      asClass: true, // Generate classes instead of functions
+      // Add other SDK options here as needed
+    }
+  ];
+
+  // Add schemas plugin if not disabled
+  if (!formattedOptions.noSchemas) {
+    plugins.push('@hey-api/schemas');
+  }
+
+  const config = {
+    input: formattedOptions.input,
     output: {
       format: formattedOptions.format,
       lint: formattedOptions.lint,
       path: openApiOutputPath,
     },
-    input: formattedOptions.input,
-    request: formattedOptions.request,
-    schemas: {
-      export: !formattedOptions.noSchemas,
-      type: formattedOptions.schemaType,
-    },
-    services: {
-      export: true,
-      response: formattedOptions.serviceResponse,
-      asClass: true,
-      operationId: formattedOptions.operationId ?? false,
-    },
-    types: {
-      dates: formattedOptions.useDateType,
-      export: true,
-      enums: formattedOptions.enums,
-    },
-    useOptions: true,
+    plugins,
   };
-  await createClient(config);
+
+  await createClient(config as any);
   const source = await createSource({
     outputPath: openApiOutputPath,
     version,
