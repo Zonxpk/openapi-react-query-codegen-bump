@@ -119,23 +119,61 @@ export function getShortType(type: string) {
   return type.replaceAll(/import\(".*?"\)\./g, "");
 }
 
-export function getClassesFromService(node: SourceFile) {
-  const klasses = node.getClasses();
+export function getFunctionsFromService(node: SourceFile) {
+  const functions = node.getFunctions();
 
-  if (!klasses.length) {
+  if (!functions.length) {
+    throw new Error("No functions found");
+  }
+
+  return functions.map((func) => {
+    const functionName = func.getName();
+    if (!functionName) {
+      throw new Error("Function name not found");
+    }
+    return {
+      functionName,
+      func,
+    };
+  });
+}
+
+export function getClassesFromService(node: SourceFile) {
+  // First try to find classes (backward compatibility)
+  const klasses = node.getClasses();
+  
+  if (klasses.length) {
+    return klasses.map((klass) => {
+      const className = klass.getName();
+      if (!className) {
+        throw new Error("Class name not found");
+      }
+      return {
+        className,
+        klass,
+      };
+    });
+  }
+
+  // If no classes found, look for functions (new format)
+  const functions = node.getFunctions();
+  
+  if (!functions.length) {
     throw new Error("No classes found");
   }
 
-  return klasses.map((klass) => {
-    const className = klass.getName();
-    if (!className) {
-      throw new Error("Class name not found");
-    }
-    return {
-      className,
-      klass,
-    };
-  });
+  // Create a virtual class that represents all the exported functions
+  return [{
+    className: "ApiService", // Virtual class name
+    klass: {
+      getMethods: () => functions.map(func => ({
+        getName: () => func.getName(),
+        compilerNode: func.compilerNode,
+        // Mock class method interface for compatibility
+      }))
+    } as any,
+    functions: functions
+  }];
 }
 
 export function getClassNameFromClassNode(klass: ClassDeclaration) {

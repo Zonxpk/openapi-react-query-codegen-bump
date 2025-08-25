@@ -16,6 +16,9 @@ export async function generate(options: LimitedUserConfig, version: string) {
   const config: any = {
     input: formattedOptions.input,
     output: openApiOutputPath,
+    services: {
+      asClass: true,
+    },
   };
   await createClient(config);
   const source = await createSource({
