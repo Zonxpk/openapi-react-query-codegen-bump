@@ -13,8 +13,15 @@ export async function generate(options: LimitedUserConfig, version: string) {
   const openApiOutputPath = buildRequestsOutputPath(options.output);
   const formattedOptions = formatOptions(options);
 
-  // Start with default plugins as strings
-  const plugins = ['@hey-api/typescript', '@hey-api/sdk'];
+  // Configure plugins with detailed options
+  const plugins = [
+    '@hey-api/typescript',
+    {
+      name: '@hey-api/sdk',
+      asClass: true, // Generate classes instead of functions
+      // Add other SDK options here as needed
+    }
+  ];
 
   // Add schemas plugin if not disabled
   if (!formattedOptions.noSchemas) {
@@ -22,9 +29,6 @@ export async function generate(options: LimitedUserConfig, version: string) {
   }
 
   const config = {
-    // base: formattedOptions.base, // might not be supported
-    // debug: formattedOptions.debug, // not supported in new version
-    // dryRun: false, // might not be supported
     input: formattedOptions.input,
     output: {
       format: formattedOptions.format,

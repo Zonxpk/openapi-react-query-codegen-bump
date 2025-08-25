@@ -1,23 +1,26 @@
 import { existsSync } from "node:fs";
 import { rm } from "node:fs/promises";
 import path from "node:path";
-import { type UserConfig, createClient } from "@hey-api/openapi-ts";
+import { createClient } from "@hey-api/openapi-ts";
 export const outputPath = (prefix: string) =>
   path.join("tests", `${prefix}-outputs`);
 
 export const generateTSClients = async (prefix: string, inputFile?: string) => {
-  const options: UserConfig = {
+  const config = {
     input: path.join(__dirname, "inputs", inputFile ?? "petstore.yaml"),
-    output: outputPath(prefix),
-    client: {
-      name: "fetch",
-      bundle: false,
+    output: {
+      path: outputPath(prefix),
     },
-    services: {
-      asClass: true,
-    },
+    plugins: [
+      '@hey-api/typescript',
+      {
+        name: '@hey-api/sdk',
+        asClass: true, // Try to generate classes
+      },
+      '@hey-api/schemas'
+    ],
   };
-  await createClient(options);
+  await createClient(config as any);
 };
 
 export const cleanOutputs = async (prefix: string) => {
