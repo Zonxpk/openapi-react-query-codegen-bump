@@ -22,7 +22,7 @@ describe(fileName, () => {
     const moduleNames = imports.map((i) => i.moduleSpecifier.text);
     expect(moduleNames).toStrictEqual([
       "@tanstack/react-query",
-      "../requests/services.gen",
+      "../requests/sdk.gen",
       "../requests/types.gen",
     ]);
     await cleanOutputs(fileName);
@@ -44,7 +44,7 @@ describe(fileName, () => {
     const moduleNames = imports.map((i) => i.moduleSpecifier.text);
     expect(moduleNames).toStrictEqual([
       "@tanstack/react-query",
-      "../requests/services.gen",
+      "../requests/sdk.gen",
       "../requests/types.gen",
     ]);
     await cleanOutputs(fileName);

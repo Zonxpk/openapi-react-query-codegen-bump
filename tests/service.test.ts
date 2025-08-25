@@ -17,15 +17,15 @@ describe(fileName, () => {
     );
     const service = await getServices(project);
     const klass = service.klasses[0];
-    expect(klass.className).toBe("DefaultService");
+    expect(klass.className).toBe("ApiService");
     const methodNames = klass.methods.map((m) => m.method.getName());
     expect(methodNames).toEqual([
       "findPets",
       "addPet",
       "getNotDefined",
       "postNotDefined",
-      "findPetById",
       "deletePet",
+      "findPetById",
       "findPaginatedPets",
       "findCursorBasedPets",
     ]);
