@@ -1,4 +1,4 @@
-import { type UserConfig, createClient } from "@hey-api/openapi-ts";
+import { createClient } from "@hey-api/openapi-ts";
 import type { LimitedUserConfig } from "./cli.mjs";
 import {
   buildQueriesOutputPath,
@@ -13,35 +13,9 @@ export async function generate(options: LimitedUserConfig, version: string) {
   const openApiOutputPath = buildRequestsOutputPath(options.output);
   const formattedOptions = formatOptions(options);
 
-  const config: UserConfig = {
-    base: formattedOptions.base,
-    client: formattedOptions.client,
-    debug: formattedOptions.debug,
-    dryRun: false,
-    exportCore: true,
-    output: {
-      format: formattedOptions.format,
-      lint: formattedOptions.lint,
-      path: openApiOutputPath,
-    },
+  const config: any = {
     input: formattedOptions.input,
-    request: formattedOptions.request,
-    schemas: {
-      export: !formattedOptions.noSchemas,
-      type: formattedOptions.schemaType,
-    },
-    services: {
-      export: true,
-      response: formattedOptions.serviceResponse,
-      asClass: true,
-      operationId: formattedOptions.operationId ?? false,
-    },
-    types: {
-      dates: formattedOptions.useDateType,
-      export: true,
-      enums: formattedOptions.enums,
-    },
-    useOptions: true,
+    output: openApiOutputPath,
   };
   await createClient(config);
   const source = await createSource({
